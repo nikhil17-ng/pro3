@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'MAVEN_3_9'   // <-- This must match the Maven name in Jenkins settings
+        maven 'mvn'   // <-- This must match the Maven name in Jenkins settings
     }
 
     stages {
