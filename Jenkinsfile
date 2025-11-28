@@ -1,42 +1,54 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage('checkout the code from github'){
-            steps{
-                 git url: 'https://github.com/nikhil17-ng/pro3.git'
-                 echo 'github url checkout'
+
+    tools {
+        maven 'MAVEN_3_9'   // <-- This must match the Maven name in Jenkins settings
+    }
+
+    stages {
+
+        stage('checkout the code from github') {
+            steps {
+                git url: 'https://github.com/nikhil17-ng/pro3.git'
+                echo 'github url checkout'
             }
         }
-        stage('codecompile with akshat'){
-            steps{
+
+        stage('codecompile with akshat') {
+            steps {
                 echo 'starting compiling'
                 sh 'mvn compile'
             }
         }
-        stage('codetesting with akshat'){
-            steps{
+
+        stage('codetesting with akshat') {
+            steps {
                 sh 'mvn test'
             }
         }
-        stage('qa with akshat'){
-            steps{
+
+        stage('qa with akshat') {
+            steps {
                 sh 'mvn checkstyle:checkstyle'
             }
         }
-        stage('package with akshat'){
-            steps{
+
+        stage('package with akshat') {
+            steps {
                 sh 'mvn package'
             }
         }
-        stage('run dockerfile'){
-          steps{
-               sh 'docker build -t myimg .'
-           }
-         }
-        stage('port expose'){
-            steps{
+
+        stage('run dockerfile') {
+            steps {
+                sh 'docker build -t myimg .'
+            }
+        }
+
+        stage('port expose') {
+            steps {
                 sh 'docker run -dt -p 8091:8091 --name c000 myimg'
             }
-        }   
+        }
     }
 }
